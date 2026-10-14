@@ -1,0 +1,206 @@
+:root {
+  --bg-dark: #0f172a;
+  --accent: #22d3ee;
+  --accent-dark: #06b6d4;
+  --text-dark: #1e293b;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text-dark);
+  background: #f8fafc;
+  animation: pageFade 0.6s var(--ease);
+}
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Navbar ---------- */
+.site-navbar {
+  background: var(--bg-dark);
+  padding: 1rem 0;
+  transition: padding 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.35s var(--ease);
+}
+.site-navbar.scrolled {
+  padding: 0.45rem 0;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  transition: transform 0.3s var(--ease);
+}
+.navbar-brand:hover { transform: scale(1.05); }
+.brand-icon { display: inline-block; transition: transform 0.5s var(--ease); }
+.navbar-brand:hover .brand-icon { transform: rotate(20deg) scale(1.2); }
+
+/* nav links: sliding underline */
+.nav-anim { position: relative; }
+.nav-anim::after {
+  content: '';
+  position: absolute;
+  left: 50%; bottom: 4px;
+  width: 0; height: 2px;
+  background: var(--accent);
+  transition: width 0.3s var(--ease), left 0.3s var(--ease);
+}
+.nav-anim:hover::after { width: 70%; left: 15%; }
+
+/* search box */
+.search-form { display: flex; width: 100%; max-width: 460px; gap: 0.5rem; }
+.search-form .form-control {
+  border-radius: 50px;
+  border: 2px solid transparent;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.search-form .form-control:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.2);
+}
+
+/* buttons */
+.btn-accent {
+  background: var(--accent);
+  color: #083344;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  padding: 0.45rem 1.2rem;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.25s;
+}
+.btn-accent:hover {
+  background: var(--accent-dark);
+  color: #083344;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(34, 211, 238, 0.35);
+}
+.btn-accent:active { transform: translateY(0) scale(0.97); }
+
+/* cart badge */
+.cart-badge {
+  display: inline-block;
+  min-width: 22px;
+  padding: 2px 7px;
+  border-radius: 50px;
+  background: var(--accent);
+  color: #083344;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+}
+.cart-badge.bump { animation: bump 0.4s var(--ease); }
+@keyframes bump {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
+
+/* dropdown */
+.dropdown-anim { border: none; border-radius: 12px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18); }
+.dropdown-menu.show { animation: dropIn 0.25s var(--ease); }
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+.dropdown-item { transition: padding-left 0.2s var(--ease), background 0.2s; }
+.dropdown-item:hover { padding-left: 1.5rem; }
+
+/* ---------- Hero banner (home page) ---------- */
+.hero-banner {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  padding: 4rem 2rem;
+  color: #fff;
+  background: linear-gradient(120deg, #0f172a, #164e63, #0e7490, #0f172a);
+  background-size: 300% 300%;
+  animation: gradientMove 12s ease infinite;
+}
+@keyframes gradientMove {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.hero-banner h1 { font-weight: 700; animation: slideUp 0.9s var(--ease) both; }
+.hero-banner p  { animation: slideUp 0.9s 0.15s var(--ease) both; }
+.hero-banner .btn { animation: slideUp 0.9s 0.3s var(--ease) both; }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Product cards ---------- */
+.product-card {
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+}
+.product-card .card-img-wrap { overflow: hidden; background: #f1f5f9; }
+.product-card .card-img-top { transition: transform 0.5s var(--ease); }
+.product-card:hover .card-img-top { transform: scale(1.08); }
+.product-card .add-to-cart {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.product-card:hover .add-to-cart { opacity: 1; transform: none; }
+.product-price { font-weight: 700; color: var(--accent-dark); }
+
+/* ---------- Category cards ---------- */
+.category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1.4rem 0.5rem;
+  background: #fff;
+  border-radius: 16px;
+  color: var(--text-dark);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.35s;
+}
+.category-card:hover {
+  transform: translateY(-6px);
+  background: var(--bg-dark);
+  color: #fff;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.2);
+}
+.category-icon {
+  font-size: 2.2rem;
+  transition: transform 0.4s var(--ease);
+}
+.category-card:hover .category-icon { transform: scale(1.25) rotate(-8deg); }
+
+/* ---------- Scroll reveal ---------- */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transition-delay: var(--delay, 0s);
+}
+.js .reveal.visible { opacity: 1; transform: none; }
+
+/* ---------- Footer ---------- */
+.site-footer { background: var(--bg-dark); color: #cbd5e1; }
+
+/* ---------- Respect users who turn animations off ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .js .reveal { opacity: 1; transform: none; }
+}
