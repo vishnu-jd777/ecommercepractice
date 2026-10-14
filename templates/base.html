@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,14 +15,15 @@
   <link href="{% static 'css/style.css' %}" rel="stylesheet">
   {% block extra_css %}{% endblock %}
 </head>
+
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top site-navbar" id="mainNavbar">
     <div class="container">
-      <a class="navbar-brand" href="#"><span class="brand-icon">⚡</span> Electro Store</a>
+      <a class="navbar-brand" href="{% url 'store:home' %}"><span class="brand-icon">⚡</span> Electro Store</a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
-              aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+        aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -40,7 +42,8 @@
 
           {% if user.is_authenticated %}
           <li class="nav-item dropdown">
-            <a class="nav-link nav-anim dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link nav-anim dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
               Hi, {{ user.first_name|default:user.username }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end dropdown-anim">
@@ -48,13 +51,20 @@
               <li><a class="dropdown-item" href="#">My Orders</a></li>
               <li><a class="dropdown-item" href="#">Addresses</a></li>
               <li><a class="dropdown-item" href="#">Wishlist</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Logout</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <form method="post" action="{% url 'accounts:logout' %}">
+                  {% csrf_token %}
+                  <button type="submit" class="dropdown-item">Logout</button>
+                </form>
+              </li>
             </ul>
           </li>
           {% else %}
-          <li class="nav-item"><a class="nav-link nav-anim" href="#">Login</a></li>
-          <li class="nav-item"><a class="btn btn-accent ms-lg-2" href="#">Sign Up</a></li>
+          <li class="nav-item"><a class="nav-link nav-anim" href="{% url 'accounts:login' %}">Login</a></li>
+          <li class="nav-item"><a class="btn btn-accent ms-lg-2" href="{% url 'accounts:signup' %}">Sign Up</a></li>
           {% endif %}
         </ul>
       </div>
@@ -64,10 +74,10 @@
   {% if messages %}
   <div class="container mt-3">
     {% for message in messages %}
-      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     {% endfor %}
   </div>
   {% endif %}
@@ -87,4 +97,5 @@
   <script src="{% static 'js/main.js' %}"></script>
   {% block extra_js %}{% endblock %}
 </body>
+
 </html>

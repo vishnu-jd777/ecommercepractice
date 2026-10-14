@@ -196,6 +196,18 @@ body {
 /* ---------- Footer ---------- */
 .site-footer { background: var(--bg-dark); color: #cbd5e1; }
 
+/* ---------- Auth cards ---------- */
+.auth-card {
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.1);
+  animation: slideUp 0.7s var(--ease) both;
+}
+.auth-card .form-control:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.2);
+}
+
 /* ---------- Respect users who turn animations off ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
