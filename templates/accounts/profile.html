@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}My Profile | Electro Store{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card auth-card p-4">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <div class="avatar">{{ user.first_name|default:user.username|slice:":1"|upper }}</div>
+        <div>
+          <h2 class="mb-0">{{ user.get_full_name|default:user.username }}</h2>
+          <p class="text-muted mb-0">@{{ user.username }}</p>
+        </div>
+      </div>
+
+      <dl class="row mb-4">
+        <dt class="col-sm-4">Email</dt>
+        <dd class="col-sm-8">{{ user.email|default:"Not added" }}</dd>
+        <dt class="col-sm-4">Phone</dt>
+        <dd class="col-sm-8">{{ user.phone|default:"Not added" }}</dd>
+        <dt class="col-sm-4">Member since</dt>
+        <dd class="col-sm-8">{{ user.date_joined|date:"d M Y" }}</dd>
+      </dl>
+
+      <div class="d-flex gap-2 flex-wrap">
+        <a href="{% url 'accounts:edit_profile' %}" class="btn btn-accent">Edit Profile</a>
+        <a href="#" class="btn btn-outline-dark rounded-pill">My Addresses</a>
+        <a href="#" class="btn btn-outline-dark rounded-pill">My Orders</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

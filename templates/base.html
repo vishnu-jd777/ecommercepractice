@@ -47,7 +47,7 @@
               Hi, {{ user.first_name|default:user.username }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end dropdown-anim">
-              <li><a class="dropdown-item" href="#">My Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">My Profile</a></li>
               <li><a class="dropdown-item" href="#">My Orders</a></li>
               <li><a class="dropdown-item" href="#">Addresses</a></li>
               <li><a class="dropdown-item" href="#">Wishlist</a></li>
