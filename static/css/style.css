@@ -172,6 +172,27 @@ body {
   text-align: center;
 }
 
+/* ---------- Product detail ---------- */
+.detail-img-wrap {
+  border-radius: 20px;
+  overflow: hidden;
+  background: #f1f5f9;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.1);
+}
+.detail-img-wrap img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+.detail-img-wrap:hover img { transform: scale(1.06); }
+.price-big { font-size: 2rem; font-weight: 700; color: var(--accent-dark); }
+.spec-list { list-style: none; padding: 0; }
+.spec-list li { padding: 0.55rem 0; border-bottom: 1px solid #e2e8f0; }
+.qty-input { width: 90px; border-radius: 50px; text-align: center; }
+.breadcrumb a { color: var(--accent-dark); text-decoration: none; }
+
+
 /* ---------- Category cards ---------- */
 .category-card {
   display: flex;

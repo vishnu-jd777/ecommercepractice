@@ -40,8 +40,13 @@
               Categories
             </a>
             <ul class="dropdown-menu dropdown-anim">
+              <li><a class="dropdown-item" href="{% url 'store:product_list' %}">All Products</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
               {% for category in nav_categories %}
-              <li><a class="dropdown-item" href="#">{{ category.icon }} {{ category.name }}</a></li>
+              <li><a class="dropdown-item" href="{% url 'store:category' category.slug %}">{{ category.icon }} {{
+                  category.name }}</a></li>
               {% empty %}
               <li><span class="dropdown-item text-muted">No categories yet</span></li>
               {% endfor %}
