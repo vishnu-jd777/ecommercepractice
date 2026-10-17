@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from . models import User
+from . models import User, Address
 
 class SignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
@@ -25,3 +25,18 @@ class ProfileForm(forms.ModelForm):
     
             for field in self.fields.values():
                 field.widget.attrs["class"] = "form-control"    
+
+
+class AddressForm(forms.ModelForm):
+
+    class Meta:
+          model = Address
+          fields = ('full_name','phone','address_line','city','state','pincode')
+        
+    def __init__(self, *args, **kwargs):
+         
+                super().__init__(*args, **kwargs)
+         
+                for field in self.fields.values():
+                     field.widget.attrs["class"] = "form-control"    
+     

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}My Addresses | Electro Store{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="mb-0">My Addresses</h2>
+  <a href="{% url 'accounts:add_address' %}" class="btn btn-accent">+ Add Address</a>
+</div>
+
+{% if addresses %}
+<div class="row g-4">
+  {% for address in addresses %}
+  <div class="col-md-6 col-lg-4 reveal" style="--delay: 0.{{ forloop.counter }}s">
+    <div class="card address-card h-100 p-3">
+      <h5 class="mb-1">{{ address.full_name }}</h5>
+      <p class="mb-1">{{ address.address_line }}</p>
+      <p class="mb-1">{{ address.city }}, {{ address.state }} - {{ address.pincode }}</p>
+      <p class="text-muted mb-3">📞 {{ address.phone }}</p>
+      <div class="d-flex gap-2 mt-auto">
+        <a href="{% url 'accounts:edit_address' address.pk %}" class="btn btn-sm btn-outline-dark rounded-pill">Edit</a>
+        <form method="post" action="{% url 'accounts:delete_address' address.pk %}"
+              onsubmit="return confirm('Delete this address?');">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5">
+  <p class="display-6">📍</p>
+  <p class="text-muted">You haven't saved any address yet.</p>
+  <a href="{% url 'accounts:add_address' %}" class="btn btn-accent">Add your first address</a>
+</div>
+{% endif %}
+{% endblock %}

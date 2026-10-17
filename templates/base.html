@@ -34,6 +34,19 @@
         </form>
 
         <ul class="navbar-nav align-items-lg-center gap-lg-2">
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-anim dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Categories
+            </a>
+            <ul class="dropdown-menu dropdown-anim">
+              {% for category in nav_categories %}
+              <li><a class="dropdown-item" href="#">{{ category.icon }} {{ category.name }}</a></li>
+              {% empty %}
+              <li><span class="dropdown-item text-muted">No categories yet</span></li>
+              {% endfor %}
+            </ul>
+          </li>
           <li class="nav-item">
             <a class="nav-link nav-anim" href="#">
               🛒 Cart <span class="cart-badge" id="cartCount">0</span>
@@ -49,7 +62,7 @@
             <ul class="dropdown-menu dropdown-menu-end dropdown-anim">
               <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">My Profile</a></li>
               <li><a class="dropdown-item" href="#">My Orders</a></li>
-              <li><a class="dropdown-item" href="#">Addresses</a></li>
+              <li><a class="dropdown-item" href="{% url 'accounts:address_list' %}">Addresses</a></li>
               <li><a class="dropdown-item" href="#">Wishlist</a></li>
               <li>
                 <hr class="dropdown-divider">

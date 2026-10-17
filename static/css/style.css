@@ -157,6 +157,21 @@ body {
 .product-card:hover .add-to-cart { opacity: 1; transform: none; }
 .product-price { font-weight: 700; color: var(--accent-dark); }
 
+.product-card .card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+.stock-badge {
+  display: inline-block;
+  padding: 0.45rem 1.2rem;
+  border-radius: 50px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
 /* ---------- Category cards ---------- */
 .category-card {
   display: flex;
@@ -223,6 +238,18 @@ body {
   transition: transform 0.4s var(--ease);
 }
 .avatar:hover { transform: rotate(10deg) scale(1.1); }
+
+/* ---------- Address cards ---------- */
+.address-card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.address-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.14);
+}
 
 /* ---------- Respect users who turn animations off ---------- */
 @media (prefers-reduced-motion: reduce) {
