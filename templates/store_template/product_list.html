@@ -4,22 +4,83 @@
 {% block content %}
 <div class="mb-4">
   <h2 class="mb-0">{{ title }}</h2>
-  <p class="text-muted mb-0">{{ products|length }} product{{ products|length|pluralize }}</p>
+  <p class="text-muted mb-0">
+    {{ page_obj.paginator.count }} product{{ page_obj.paginator.count|pluralize }}
+  </p>
 </div>
 
-{% if products %}
+<form method="get" class="filter-bar card p-3 mb-4">
+  {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
+  <div class="row g-3 align-items-end">
+    <div class="col-6 col-md-3">
+      <label class="form-label small" for="brand">Brand</label>
+      <select name="brand" id="brand" class="form-select">
+        <option value="">All brands</option>
+        {% for b in brands %}
+          <option value="{{ b }}" {% if b == brand %}selected{% endif %}>{{ b }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-6 col-md-2">
+      <label class="form-label small" for="min_price">Min price (₹)</label>
+      <input type="number" name="min_price" id="min_price" class="form-control" min="0" value="{{ min_price }}">
+    </div>
+    <div class="col-6 col-md-2">
+      <label class="form-label small" for="max_price">Max price (₹)</label>
+      <input type="number" name="max_price" id="max_price" class="form-control" min="0" value="{{ max_price }}">
+    </div>
+    <div class="col-6 col-md-3">
+      <label class="form-label small" for="sort">Sort by</label>
+      <select name="sort" id="sort" class="form-select">
+        <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest</option>
+        <option value="price_low" {% if sort == 'price_low' %}selected{% endif %}>Price: low to high</option>
+        <option value="price_high" {% if sort == 'price_high' %}selected{% endif %}>Price: high to low</option>
+        <option value="name" {% if sort == 'name' %}selected{% endif %}>Name: A to Z</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-2 d-flex gap-2">
+      <button type="submit" class="btn btn-accent flex-grow-1">Apply</button>
+      <a href="?" class="btn btn-outline-dark rounded-pill">Reset</a>
+    </div>
+  </div>
+</form>
+
+{% if page_obj %}
 <div class="row g-4">
-  {% for product in products %}
+  {% for product in page_obj %}
   <div class="col-6 col-md-4 col-lg-3 reveal">
     {% include 'store_template/_product_card.html' %}
   </div>
   {% endfor %}
 </div>
+
+{% if page_obj.has_other_pages %}
+<nav class="mt-5" aria-label="Pages">
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ page_obj.previous_page_number }}">Previous</a>
+    </li>
+    {% endif %}
+    {% for num in page_obj.paginator.page_range %}
+    <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+      <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ num }}">{{ num }}</a>
+    </li>
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+
 {% else %}
 <div class="text-center py-5">
   <p class="display-6">📦</p>
-  <p class="text-muted">No products here yet.</p>
-  <a href="{% url 'store:home' %}" class="btn btn-accent">Back to home</a>
+  <p class="text-muted">No products match your search or filters.</p>
+  <a href="?" class="btn btn-accent">Clear filters</a>
 </div>
 {% endif %}
 {% endblock %}

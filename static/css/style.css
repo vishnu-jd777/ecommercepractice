@@ -192,6 +192,29 @@ body {
 .qty-input { width: 90px; border-radius: 50px; text-align: center; }
 .breadcrumb a { color: var(--accent-dark); text-decoration: none; }
 
+/* ---------- Filter bar and pagination ---------- */
+.filter-bar {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+}
+.filter-bar .form-select:focus,
+.filter-bar .form-control:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.2);
+}
+.pagination .page-link {
+  color: var(--accent-dark);
+  border: none;
+  border-radius: 50px;
+  margin: 0 3px;
+}
+.pagination .page-item.active .page-link {
+  background: var(--accent);
+  color: #083344;
+  font-weight: 600;
+}
+
 
 /* ---------- Category cards ---------- */
 .category-card {
