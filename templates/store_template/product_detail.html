@@ -6,7 +6,8 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'store:home' %}">Home</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'store:category' product.category.slug %}">{{ product.category.name }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'store:category' product.category.slug %}">{{ product.category.name
+        }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
   </ol>
 </nav>
@@ -15,9 +16,9 @@
   <div class="col-md-6 reveal">
     <div class="detail-img-wrap">
       {% if product.image %}
-        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+      <img src="{{ product.image.url }}" alt="{{ product.name }}">
       {% else %}
-        <img src="https://placehold.co/600x420?text={{ product.name|urlencode }}" alt="{{ product.name }}">
+      <img src="https://placehold.co/600x420?text={{ product.name|urlencode }}" alt="{{ product.name }}">
       {% endif %}
     </div>
   </div>
@@ -28,33 +29,35 @@
     <p class="price-big">₹{{ product.price|floatformat:0|intcomma }}</p>
 
     {% if product.in_stock %}
-      <p class="text-success fw-semibold mb-1">● In stock</p>
-      {% if product.stock <= 5 %}
-        <p class="text-warning-emphasis small">Only {{ product.stock }} left</p>
+    <p class="text-success fw-semibold mb-1">● In stock</p>
+    {% if product.stock <= 5 %} <p class="text-warning-emphasis small">Only {{ product.stock }} left</p>
       {% endif %}
-    {% else %}
+      {% else %}
       <p class="text-danger fw-semibold">● Out of stock</p>
-    {% endif %}
+      {% endif %}
 
-    <div class="mt-3">{{ product.description|linebreaks }}</div>
+      <div class="mt-3">{{ product.description|linebreaks }}</div>
 
-    {% if product.specs %}
-    <h5 class="mt-4">Specifications</h5>
-    <ul class="spec-list">
-      {% for line in product.specs.splitlines %}
+      {% if product.specs %}
+      <h5 class="mt-4">Specifications</h5>
+      <ul class="spec-list">
+        {% for line in product.specs.splitlines %}
         {% if line %}<li>{{ line }}</li>{% endif %}
-      {% endfor %}
-    </ul>
-    {% endif %}
+        {% endfor %}
+      </ul>
+      {% endif %}
 
-    {% if product.in_stock %}
-    <div class="d-flex gap-3 mt-4">
-      <input type="number" class="form-control qty-input" value="1" min="1" max="{{ product.stock }}">
-      <a href="#" class="btn btn-accent btn-lg flex-grow-1">Add to Cart</a>
-    </div>
-    {% else %}
-    <span class="stock-badge mt-4">Out of stock</span>
-    {% endif %}
+      {% if not product.in_stock %}
+      <span class="stock-badge mt-auto">Out of stock</span>
+      {% elif user.is_authenticated %}
+      <form method="post" action="{% url 'cart:add_to_cart' product.id %}" class="mt-auto">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-accent w-100">Add to Cart</button>
+      </form>
+      {% else %}
+      <a href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}"
+        class="btn btn-accent w-100 mt-auto">Add to Cart</a>
+      {% endif %}
   </div>
 </div>
 
