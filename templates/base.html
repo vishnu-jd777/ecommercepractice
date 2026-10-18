@@ -45,15 +45,14 @@
                 <hr class="dropdown-divider">
               </li>
               {% for category in nav_categories %}
-              <li><a class="dropdown-item" href="{% url 'store:category' category.slug %}">{{ category.icon }} {{
-                  category.name }}</a></li>
+              <li><a class="dropdown-item" href="{% url 'store:category' category.slug %}">{{ category.icon }} {{ category.name }}</a></li>
               {% empty %}
               <li><span class="dropdown-item text-muted">No categories yet</span></li>
               {% endfor %}
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-anim" href="#">
+            <a class="nav-link nav-anim" href="{% url 'cart:cart_detail' %}">
               🛒 Cart <span class="cart-badge" id="cartCount">{{ cart_count }}</span>
             </a>
           </li>
