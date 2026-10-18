@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}Order placed | Electro Store{% endblock %}
+
+{% block content %}
+<div class="text-center py-4">
+  <p class="display-3 mb-2">🎉</p>
+  <h2>Thank you, your order is placed!</h2>
+  <p class="text-muted">Order #{{ order.id }} &middot; Status: <strong>{{ order.get_status_display }}</strong></p>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card cart-summary mb-4">
+      <div class="card-body">
+        <h5 class="mb-3">Items</h5>
+        {% for item in order.items.all %}
+        <div class="d-flex justify-content-between mb-2">
+          <span>{{ item.product_name }} x {{ item.quantity }}</span>
+          <span>₹{{ item.subtotal|floatformat:0|intcomma }}</span>
+        </div>
+        {% endfor %}
+        <hr>
+        <div class="d-flex justify-content-between fw-bold fs-5">
+          <span>Total (Cash on Delivery)</span>
+          <span>₹{{ order.total_amount|floatformat:0|intcomma }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card cart-summary mb-4">
+      <div class="card-body">
+        <h5 class="mb-2">Delivering to</h5>
+        <strong>{{ order.full_name }}</strong> <span class="text-muted">{{ order.phone }}</span>
+        <p class="mb-0 text-muted">{{ order.address_line }}, {{ order.city }}, {{ order.state }} - {{ order.pincode }}</p>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <a href="{% url 'store:product_list' %}" class="btn btn-accent">Continue shopping</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

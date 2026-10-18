@@ -315,6 +315,30 @@ body {
   width: 80px;
 }
 
+/* ---------- Checkout ---------- */
+.address-option { cursor: pointer; }
+.address-radio {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.address-card,
+.payment-card {
+  border: 2px solid transparent;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.address-option:hover .address-card {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.1);
+}
+.address-radio:checked + .address-card {
+  border-color: var(--accent);
+  background: rgba(34, 211, 238, 0.08);
+}
+.payment-card { border-color: var(--accent); }
+
 /* ---------- Respect users who turn animations off ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

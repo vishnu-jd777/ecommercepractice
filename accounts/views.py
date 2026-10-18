@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -49,14 +50,29 @@ def address_list_view(request):
 @login_required
 def add_address_view(request):
     form = AddressForm(request.POST or None)
+
     if request.method == "POST" and form.is_valid():
         address = form.save(commit=False)
         address.user = request.user
         address.save()
-        messages.success(request,'Address added')
+
+        messages.success(request, 'Address added')
+
+        next_url = request.GET.get('next')
+
+        if next_url and url_has_allowed_host_and_scheme(
+            next_url,
+            allowed_hosts={request.get_host()}
+        ):
+            return redirect(next_url)
+
         return redirect('accounts:address_list')
-    else:
-        return render(request,'accounts_templates/address_form.html',{'form' : form,'title' : 'Add Address'})
+
+    return render(
+        request,
+        'accounts_templates/address_form.html',
+        {'form': form, 'title': 'Add Address'}
+    )
 
 @login_required
 def edit_address_view(request,pk):
