@@ -28,7 +28,8 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navMenu">
-        <form class="search-form mx-lg-auto my-3 my-lg-0" role="search" action="{% url 'store:product_list' %}" method="get">
+        <form class="search-form mx-lg-auto my-3 my-lg-0" role="search" action="{% url 'store:product_list' %}"
+          method="get">
           <input class="form-control" type="search" name="q" placeholder="Search phones, laptops, headphones...">
           <button class="btn btn-accent" type="submit">Search</button>
         </form>
@@ -45,7 +46,8 @@
                 <hr class="dropdown-divider">
               </li>
               {% for category in nav_categories %}
-              <li><a class="dropdown-item" href="{% url 'store:category' category.slug %}">{{ category.icon }} {{ category.name }}</a></li>
+              <li><a class="dropdown-item" href="{% url 'store:category' category.slug %}">{{ category.icon }} {{
+                  category.name }}</a></li>
               {% empty %}
               <li><span class="dropdown-item text-muted">No categories yet</span></li>
               {% endfor %}
@@ -65,7 +67,11 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end dropdown-anim">
               <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">My Profile</a></li>
-              <li><a class="dropdown-item" href="#">My Orders</a></li>
+              <li>
+                <a class="dropdown-item" href="{% url 'orders:order_list' %}">
+                  My Orders
+                </a>
+              </li>
               <li><a class="dropdown-item" href="{% url 'accounts:address_list' %}">Addresses</a></li>
               <li><a class="dropdown-item" href="#">Wishlist</a></li>
               <li>

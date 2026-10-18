@@ -45,6 +45,17 @@ class Order(models.Model):
     def can_cancel(self):
         return self.status == 'PLACED'
 
+    @property
+    def status_step(self):
+        mapping = {
+         'PLACED': 1,
+         'SHIPPED': 2,
+         'OUT_FOR_DELIVERY': 3,
+         'DELIVERED': 4,
+         'CANCELLED': 0,
+        }
+        return mapping.get(self.status, 0)
+
 class OrderItem(models.Model):
     order = models.ForeignKey(
         Order,

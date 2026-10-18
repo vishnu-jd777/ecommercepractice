@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}My Orders | Electro Store{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">My Orders</h2>
+
+{% for order in orders %}
+<div class="card order-card mb-3 reveal">
+  <div class="card-body">
+    <div class="row align-items-center g-3">
+      <div class="col-12 col-md-4">
+        <strong>Order #{{ order.id }}</strong>
+        <div class="text-muted small">{{ order.created_at|date:"d M Y, h:i A" }}</div>
+      </div>
+      <div class="col-6 col-md-3">
+        <span class="status-badge status-{{ order.status }}">{{ order.get_status_display }}</span>
+      </div>
+      <div class="col-6 col-md-2 text-md-end fw-bold">
+        ₹{{ order.total_amount|floatformat:0|intcomma }}
+      </div>
+      <div class="col-12 col-md-3 text-md-end">
+        <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-sm btn-outline-dark rounded-pill">View details</a>
+      </div>
+    </div>
+    <div class="text-muted small mt-2">
+      {% for item in order.items.all %}{{ item.product_name }} x {{ item.quantity }}{% if not forloop.last %}, {% endif %}{% endfor %}
+    </div>
+  </div>
+</div>
+{% empty %}
+<div class="text-center py-5">
+  <p class="display-4">📦</p>
+  <h5>No orders yet</h5>
+  <p class="text-muted">When you place an order, it will show up here.</p>
+  <a href="{% url 'store:product_list' %}" class="btn btn-accent">Start shopping</a>
+</div>
+{% endfor %}
+{% endblock %}

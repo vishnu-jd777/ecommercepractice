@@ -339,6 +339,70 @@ body {
 }
 .payment-card { border-color: var(--accent); }
 
+/* ---------- Orders ---------- */
+.order-card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.1);
+}
+.status-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #e2e8f0;
+  color: #334155;
+}
+.status-PLACED { background: #e0f2fe; color: #0369a1; }
+.status-SHIPPED { background: #fef3c7; color: #b45309; }
+.status-OUT_FOR_DELIVERY { background: #ede9fe; color: #6d28d9; }
+.status-DELIVERED { background: #dcfce7; color: #15803d; }
+.status-CANCELLED { background: #fee2e2; color: #b91c1c; }
+
+.tracker {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  padding: 0 8px;
+}
+.tracker::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 8%;
+  right: 8%;
+  height: 4px;
+  background: #e2e8f0;
+}
+.tracker-step {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  text-align: center;
+  color: #94a3b8;
+}
+.tracker-step .dot {
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  border: 3px solid #fff;
+  transition: background 0.4s ease, transform 0.4s ease;
+}
+.tracker-step.done { color: #0f172a; font-weight: 600; }
+.tracker-step.done .dot {
+  background: var(--accent);
+  transform: scale(1.15);
+}
+
 /* ---------- Respect users who turn animations off ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

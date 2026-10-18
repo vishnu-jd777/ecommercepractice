@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}Order #{{ order.id }} | Electro Store{% endblock %}
+
+{% block content %}
+<a href="{% url 'orders:order_list' %}" class="text-decoration-none">&larr; Back to my orders</a>
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mt-3 mb-4">
+  <div>
+    <h2 class="mb-0">Order #{{ order.id }}</h2>
+    <span class="text-muted">Placed on {{ order.created_at|date:"d M Y, h:i A" }}</span>
+  </div>
+  <span class="status-badge status-{{ order.status }} fs-6">{{ order.get_status_display }}</span>
+</div>
+
+{% if order.status == 'CANCELLED' %}
+<div class="alert alert-danger">This order was cancelled.</div>
+{% else %}
+<div class="tracker mb-4">
+  <div class="tracker-step {% if order.status_step >= 1 %}done{% endif %}"><span class="dot"></span><small>Placed</small></div>
+  <div class="tracker-step {% if order.status_step >= 2 %}done{% endif %}"><span class="dot"></span><small>Shipped</small></div>
+  <div class="tracker-step {% if order.status_step >= 3 %}done{% endif %}"><span class="dot"></span><small>Out for delivery</small></div>
+  <div class="tracker-step {% if order.status_step >= 4 %}done{% endif %}"><span class="dot"></span><small>Delivered</small></div>
+</div>
+{% endif %}
+
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="card cart-summary">
+      <div class="card-body">
+        <h5 class="mb-3">Items</h5>
+        {% for item in order.items.all %}
+        <div class="d-flex justify-content-between mb-2">
+          <span>
+            {% if item.product %}
+              <a href="{% url 'store:product_detail' item.product.slug %}" class="text-decoration-none text-dark">{{ item.product_name }}</a>
+            {% else %}
+              {{ item.product_name }}
+            {% endif %}
+            <span class="text-muted">x {{ item.quantity }}</span>
+          </span>
+          <span>₹{{ item.subtotal|floatformat:0|intcomma }}</span>
+        </div>
+        {% endfor %}
+        <hr>
+        <div class="d-flex justify-content-between fw-bold fs-5">
+          <span>Total (Cash on Delivery)</span>
+          <span>₹{{ order.total_amount|floatformat:0|intcomma }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card cart-summary mb-3">
+      <div class="card-body">
+        <h5 class="mb-2">Delivery address</h5>
+        <strong>{{ order.full_name }}</strong> <span class="text-muted">{{ order.phone }}</span>
+        <p class="mb-0 text-muted">{{ order.address_line }}, {{ order.city }}, {{ order.state }} - {{ order.pincode }}</p>
+      </div>
+    </div>
+
+    {% if order.can_cancel %}
+    <form method="post" action="{% url 'orders:cancel_order' order.id %}"
+          onsubmit="return confirm('Cancel this order?');">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-outline-danger w-100 rounded-pill">Cancel order</button>
+    </form>
+    <p class="text-muted small mt-2">You can cancel only while the order is Placed.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

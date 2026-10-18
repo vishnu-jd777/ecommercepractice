@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
 from django.urls import reverse
 from django.db import transaction
 
@@ -108,3 +109,66 @@ def order_success_view(request, order_id):
         'orders_templates/order_success.html',
         {'order': order}
     )
+
+@login_required
+def order_list_view(request):
+    orders = request.user.orders.prefetch_related('items')
+
+    return render(
+        request,
+        'orders_templates/order_list.html',
+        {'orders': orders}
+    )
+
+@login_required
+def order_detail_view(request, order_id):
+    order = get_object_or_404(
+        Order,
+        id=order_id,
+        user=request.user
+    )
+
+    return render(
+        request,
+        'orders_templates/order_detail.html',
+        {'order': order}
+    )
+
+@login_required
+@require_POST
+def cancel_order_view(request, order_id):
+    order = get_object_or_404(
+        Order,
+        id=order_id,
+        user=request.user
+    )
+
+    if not order.can_cancel:
+        messages.error(
+            request,
+            'This order can no longer be cancelled.'
+        )
+        return redirect(
+            'orders:order_detail',
+            order_id=order.id
+        )
+
+    with transaction.atomic():
+        for item in order.items.all():
+            if item.product is not None:
+                item.product.stock += item.quantity
+                item.product.save()
+
+        order.status = 'CANCELLED'
+        order.save()
+
+    messages.success(
+        request,
+        'Your order has been cancelled successfully.'
+    )
+
+    return redirect(
+        'orders:order_detail',
+        order_id=order.id
+    )
+
