@@ -46,8 +46,7 @@
                 <hr class="dropdown-divider">
               </li>
               {% for category in nav_categories %}
-              <li><a class="dropdown-item" href="{% url 'store:category' category.slug %}">{{ category.icon }} {{
-                  category.name }}</a></li>
+              <li><a class="dropdown-item" href="{% url 'store:category' category.slug %}">{{ category.icon }} {{ category.name }}</a></li>
               {% empty %}
               <li><span class="dropdown-item text-muted">No categories yet</span></li>
               {% endfor %}
@@ -73,7 +72,7 @@
                 </a>
               </li>
               <li><a class="dropdown-item" href="{% url 'accounts:address_list' %}">Addresses</a></li>
-              <li><a class="dropdown-item" href="#">Wishlist</a></li>
+              <li><a class="dropdown-item" href="{% url 'store:wishlist' %}">Wishlist</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>

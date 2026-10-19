@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}My Wishlist | Electro Store{% endblock %}
+
+{% block content %}
+<h2 class="mb-1">My Wishlist</h2>
+<p class="text-muted mb-4">{{ items|length }} saved item{{ items|length|pluralize }}</p>
+
+{% if items %}
+<div class="row g-4">
+  {% for item in items %}
+  <div class="col-6 col-md-4 col-lg-3 reveal">
+    {% include 'store_template/_product_card.html' with product=item.product %}
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5">
+  <p class="display-4">♡</p>
+  <h5>Your wishlist is empty</h5>
+  <p class="text-muted">Tap the heart on any product to save it here.</p>
+  <a href="{% url 'store:product_list' %}" class="btn btn-accent">Browse products</a>
+</div>
+{% endif %}
+{% endblock %}

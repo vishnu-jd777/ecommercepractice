@@ -1,0 +1,15 @@
+<div class="wishlist-slot {% if inline %}inline{% endif %}">
+  {% if user.is_authenticated %}
+  <form method="post" action="{% url 'store:toggle_wishlist' product.id %}">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+    <button type="submit"
+            class="wishlist-btn {% if product.id in wishlist_ids %}active{% endif %}"
+            title="{% if product.id in wishlist_ids %}Remove from wishlist{% else %}Save to wishlist{% endif %}"
+            aria-label="Toggle wishlist">&#9829;</button>
+  </form>
+  {% else %}
+  <a href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}"
+     class="wishlist-btn" title="Login to save" aria-label="Login to save">&#9829;</a>
+  {% endif %}
+</div>
