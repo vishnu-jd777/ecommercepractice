@@ -23,9 +23,9 @@ Gunicorn, WhiteNoise, Render
 |---|---|
 | ![Home](screenshots/home.png) | ![Products](screenshots/products.png) |
 | **Product detail** | **Cart** |
-| ![Detail](screenshots/detail.png) | ![Cart](screenshots/cart.png) |
+| ![Detail](screenshots/productdetail.png) | ![Cart](screenshots/cart.png) |
 | **Orders** | |
-| ![Orders](screenshots/orders.png) | |
+| ![Orders](screenshots/order.png) | |
 
 ## What I learned
 - Custom user model, ModelForms and class-free function views
